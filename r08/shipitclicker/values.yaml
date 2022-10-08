@@ -1,0 +1,69 @@
+# Wartości domyślne dla aplikacji shipitclicker.
+# To jest plik w formacie YAML.
+# Zadeklaruj zmienne do wykorzystania w szablonie.
+
+replicaCount: 1
+
+image:
+  repository: oskarhc/shipitclicker
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Określa, czy należy utworzyć konto usługi.
+  create: true
+  # Adnotacje do dodania do konta usługi.
+  annotations: {}
+  # Nazwa konta usługi, którego chcesz używać.
+  # Jeżeli nie zostanie określona, a create ma wartość true, przyjęta będzie pełna nazwa szablonu.
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8008
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    -  host: localhost
+       paths: ['/']
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # Zwykle zalecamy, aby nie określać zasobów domyślnych i pozostawić to jako świadomy wybór
+  # dla użytkownika. Zwiększa to również szanse na uruchomienie diagramu w środowisku z niewielkimi 
+  # zasobami, na przykład Minikube. Jeśli chcesz określić zasoby, odkomentuj poniższe wiersze, 
+  # dostosuj je w razie potrzeby i usuń nawiasy klamrowe po opcji 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Apple macOS version 5.6.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height, minmal-ui">
+  <title>ShipIt Clicker</title>
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+  <noscript>Ta gra wymaga JavaScript</noscript>
+  <div id="background">
+    <img class="stretch" src="img/shipit-640x640-lc.jpg" alt="ShipIt Squirrel!">
+  </div>
+  <div id="splash">
+    <h1>ShipIt Clicker!</h1>
+    <form>
+      <input type="button" id="start_button" value="Start" onclick="clickStart();"><br>
+      <input type="button" id="resume_button" value="Wznowienie gry" onclick="clickResume();"><br>
+      <input type="button" id="restart_button" value="Restart gry" onclick="clickRestart();"><br>
+      <input type="button" id="credits_button" value="Podziękowania" onclick="clickCredits();">
+    </form>
+    <div class="content">
+      <h3 class="api"><a href="/api-explorer/">Dokumentacja interaktywnego interfejsu API</a></h3>
+    </div>
+  </div>
+  <div id="credits">
+    <h1>Credits</h1>
+    <div class="content">
+      <img class="about" src="img/Richard-Cartoon-Headshot-Jaunty-180x180.png" alt="Richard's Jaunty Headshot">
+      <p>Ta gra jest częścią kodów załączonych do książki<a href="https://github.com/ModusCreateOrg/docker-book/">Docker dla programistów</a>.</p>
+      <p>Chciałbym podziękować moim dzieciom, Parkerowi, Oliverowi, Norah i Declanowi za inspirację przy projektowaniu gry i opinię oraz mojej żonie Patricii za wsparcie.</p>
+      <h3 class="endmark">❖</h3>
+    </div>
+    <form>
+      <input type="button" id="ok_button" value="OK" onclick="clickOkCredits();">
+    </form>
+  </div>
+  <div id="game">
+    <h1>ShipIt!</h1>
+    <div id="stage" class="content" onclick="clickDeploy();">
+      <p class="animate">🐳</p>
+    </div>
+    <form>
+      <input type="button" id="deploy_button" value="Wdróż" onclick="clickDeploy();">
+      <input type="button" id="store_button" value="Zapisz" onclick="clickStore();"> 
+      <input type="button" id="quit_button" value="Wyjście" onclick="clickQuit();">
+    </form>
+  </div>
+  <div id="store">
+    <h1>Sklep ShipIt</h1>
+    <div class="content" onclick="clickBuy();">
+      <table>
+        <thead>
+          <tr>
+            <th class="currency">Cena</th>
+            <th>Element</th>
+            <th>Opis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="currency">200 SQ$</td>
+            <td id="upgrade1">Skrypt</td>
+            <td>klikanie 2x</td>
+          </tr>
+          <tr>
+            <td class="currency">400 SQ$</td>
+            <td id="upgrade2">Kompozytor</td>
+            <td>autoklikanie 4x co 8 sekund</td>
+          </tr>
+          <tr>
+            <td class="currency">800 SQ$</td>
+            <td id="upgrade3">Host</td>
+            <td>klikanie 8x</td>
+          </tr>
+          <tr>
+            <td class="currency">1,600 SQ$</td>
+            <td id="upgrade4">Silnik</td>
+            <td>autoklikanie 16x co sekundę</td>
+          </tr>
+          <tr>
+            <td class="currency">32,000 SQ$</td>
+            <td id="upgrade5">Klaster</td>
+            <td>klikanie 32x</td>
+          </tr>
+          <tr>
+            <td class="currency">64,000 SQ$</td>
+            <td id="upgrade6">Orkiestrator</td>
+            <td>autoklikanie 64x co sekundę</td>
+          </tr>
+          <tr>
+            <td class="currency">128,000 SQ$</td>
+            <td id="upgrade7">Multi-Cloud</td>
+            <td>klikanie 128x</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="endmark">❖</h3>
+    </div>
+    <form>
+      <input type="button" id="buy_button" value="Kup aktuaizację" onclick="clickBuy();"><br>
+      <input type="button" id="continue_button" value="Kontynuuj grę" onclick="clickContinue();">
+    </form>
+  </div>
+  <div id="footer">
+    <h2 id="statusBar">SQ$: <span id="score">0</span> 📦: <span id="deploys">0</span><br>
+      Per kliknięcie <span id="deployMultiplier">1</span>x Wynik&nbsp;<span id="scoreMultiplier">1</span>x<br>Auto&nbsp;<span id="autoMultiplier">0</span>x/<span id="autoTick">0</span>s<br>
+    Elementy: <span id="upgrades">brak</span><br>Następny element: <span id="nextItem"></span></h2> 
+    <h3 id="heartbeat">💔</h3>
+  </div>
+  <script src="app.js"></script>
+  <noscript><h1>ShipIt Clicker wymaga JavaScript i nowoczesnej przeglądarki do działania.</h1></noscript>
+</body>
+</html>

@@ -1,0 +1,16 @@
+---
+# docker-compose.yml
+version: '3'
+services:
+  shipit-clicker-web:
+    build: .
+    environment:
+      REDIS_HOST: redis
+    ports:
+    - "3005:3000"
+    links:
+    - redis
+  redis:
+    image: redis
+    ports:
+    - "6379:6379"

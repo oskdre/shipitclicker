@@ -1,0 +1,23 @@
+# Wzorce do zignorowania podczas budowania pakietów.
+# Obsługuje dopasowywanie globalne powłoki, dopasowanie ścieżki względnej,
+# i negację (z prefiksem!). Tylko jeden wzozec w wierszu.
+.DS_Store
+# Typowe katalogi VCS
+.git/
+.gitignore
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+# Pliki kopii zapasowych
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+# Różne środowiska IDE
+.project
+.idea/
+*.tmproj
+.vscode/

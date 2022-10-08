@@ -1,0 +1,232 @@
+openapi: 3.0.1
+info:
+  title: shipit-clicker
+  description: ShipIt Clicker
+  version: 2.0.0
+servers:
+  - url: /api/v2
+tags:
+  - name: Game
+    description: Interfejs API gry Shipit Clicker
+  - name: Specification
+    description: Specyfikacja API Swagger
+paths:
+  /games/:
+    post:
+      tags:
+        - Game
+      description: Utwórz now¹ grê
+      requestBody:
+        description: Pusta treœæ ¿¹dania obiektu
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empty'
+        required: false
+      responses:
+        201:
+          description: Zwróæ nowo utworzony znacznik czasu rozpoczêcia gry o okreœlonym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        5XX:
+          description: B³¹d serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/{id}:
+    get:
+      tags:
+        - Game
+      parameters:
+        - name: id
+          in: path
+          description: Identyfikator gry do pobrania
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Zwróæ grê zawieraj¹c¹ znacznik czasu rozpoczêcia gry o podanym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        4XX:
+          description: Gra nie znaleziona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: B³¹d serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/{id}/{element}:
+    get:
+      tags:
+        - Game
+      parameters:
+        - name: id
+          in: path
+          description: Identyfikator elementu gry do pobrania
+          required: true
+          schema:
+            type: string
+        - name: element
+          in: path
+          description: Element gry do pobrania
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Zwróæ przedmiot gry o okreœlonym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        4XX:
+          description: Gra nie znaleziona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: B³¹d serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Game
+      description: Utwórz lub zaktualizuj nowy element gry
+      requestBody:
+        description: Element gry do utworzenia lub aktualizacji
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameItem'
+        required: true
+      responses:
+        201:
+          description: Zwróæ nowo utworzony przedmiot gry o podanym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameItem'
+        5XX:
+          description: B³¹d serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Game
+      description: Zwiêksz element gry o okreœlon¹ wartoœæ
+      requestBody:
+        description: Wartoœæ, o któr¹ jest powiêkszany element gry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameItem'
+        required: true
+      responses:
+        200:
+          description: Powiêkszenie zosta³o zaakceptowane
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameItem'
+        5XX:
+          description: B³¹d serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/ready:
+    get:
+      tags:
+        - Game
+      responses:
+        200:
+          description: Czy gra jest gotowa do przyjmowania zapytañ?
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        4XX:
+          description: B³¹d ¿¹dania
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: Us³uga niedostêpna
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        5XX:
+          description: B³¹d serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Zwróæ specyfikacjê API
+          content: {}
+components:
+  schemas:
+    Error:
+      type: object
+      additionalProperties: true
+    Empty:
+      type: object
+      additionalProperties: false
+    Message:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 503
+        msg:
+          type: string
+          example: Us³uga niedostêpna
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sample-game
+        started_on:
+          type: integer
+          example: 1586458255
+    GameItem:
+      title: Element gry
+      required:
+        - id
+        - element
+        - value
+      type: object
+      properties:
+        id:
+          type: string
+          example: sample-game
+        element:
+          type: string
+          example: score
+        value:
+          type: integer
+          example: 3

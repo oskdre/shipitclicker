@@ -1,0 +1,66 @@
+# Wartoœci domyœlne dla aplikacji shipitclicker.
+# To jest plik w formacie YAML.
+# Zadeklaruj zmienne do wykorzystania w szablonie.
+
+replicaCount: 1
+
+image:
+  repository: dockerfordevelopers/shipitclicker
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Okreœla, czy nale¿y utworzyæ konto us³ugi.
+  create: true
+  # Adnotacje do dodania do konta us³ugi.
+  annotations: {}
+  # Nazwa konta us³ugi, którego chcesz u¿ywaæ.
+  # Je¿eli nie zostanie okreœlona, a create ma wartoœæ true, przyjêta bêdzie pe³na nazwa szablonu.
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8008
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+  hosts:
+  #  - host: "*"
+    - paths: ['/*']
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+   limits:
+     cpu: 500m
+     memory: 512Mi
+   requests:
+     cpu: 500m
+     memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

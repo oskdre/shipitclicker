@@ -1,0 +1,19 @@
+apiVersion: v1
+name: shipitclicker
+description: Diagram Helm dla aplikacji ShipIt Clicker
+
+# Diagram może być typu 'application' lub 'library'.
+#
+# Diagram typu 'application' to zbiór szablonów, które można spakować do archiwów z wersjami
+# w celu wdrożenia.
+#
+# Diagram typu 'library' zawiera przydatne narzędzia i funkcje dla programisty. Są to zależności, które
+# można wykorzystywać w procesie. Nie definiuje żadnych szablonów, więc nie można go wdrażać.
+type: application
+
+# Wersja diagramu. Numer należy zwiększać po każdorazowym wprowadzeniu zmian w diagramie,
+# szablonie lub aplikacji.
+version: 0.1.13
+
+# Wersja wdrażanej aplikacji. Numer należy zwiększać po każdorazowym wprowadzeniu zmian w aplikacji.
+appVersion: 0.4.0

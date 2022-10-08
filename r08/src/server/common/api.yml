@@ -1,0 +1,194 @@
+openapi: 3.0.1
+info:
+  title: shipit-clicker
+  description: ShipIt Clicker
+  version: 2.0.0
+servers:
+  - url: /api/v2
+tags:
+  - name: Game
+    description: Interfejs API gry Shipit Clicker
+  - name: Specification
+    description: Specyfikacja API Swagger
+paths:
+  /games/:
+    post:
+      tags:
+        - Game
+      description: Utwórz nową grę
+      requestBody:
+        description: Pusta treść żądania obiektu
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Empty'
+        required: false
+      responses:
+        201:
+          description: Zwróć nowo utworzony znacznik czasu rozpoczęcia gry o określonym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/{id}:
+    get:
+      tags:
+        - Game
+      parameters:
+        - name: id
+          in: path
+          description: Identyfikator gry do pobrania
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Zwróć grę zawierającą znacznik czasu rozpoczęcia gry o podanym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        4XX:
+          description: Gra nie znaleziona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/{id}/{element}:
+    get:
+      tags:
+        - Game
+      parameters:
+        - name: id
+          in: path
+          description: Identyfikator elementu gry do pobrania
+          required: true
+          schema:
+            type: string
+        - name: element
+          in: path
+          description: Element gry do pobrania
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Zwróć przedmiot gry o określonym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        4XX:
+          description: Gra nie znaleziona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Game
+      description: Utwórz lub zaktualizuj nowy element gry
+      requestBody:
+        description: Element gry do utworzenia lub aktualizacji
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameItem'
+        required: true
+      responses:
+        201:
+          description: Zwróć nowo utworzony przedmiot gry o podanym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameItem'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Game
+      description: Zwiększ element gry o określoną wartość
+      requestBody:
+        description: Wartość, o którą jest powiększany element gry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameItem'
+        required: true
+      responses:
+        200:
+          description: Powiększeie zostało zaakceptowane
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameItem'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Zwróć specyfikację API
+          content: {}
+components:
+  schemas:
+    Error:
+      type: object
+      additionalProperties: true
+    Empty:
+      type: object
+      additionalProperties: false
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sample-game
+        started_on:
+          type: integer
+          example: 1586458255
+    GameItem:
+      title: Element gry
+      required:
+        - id
+        - element
+        - value
+      type: object
+      properties:
+        id:
+          type: string
+          example: sample-game
+        element:
+          type: string
+          example: score
+        value:
+          type: integer
+          example: 3

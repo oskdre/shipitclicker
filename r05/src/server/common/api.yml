@@ -1,0 +1,247 @@
+openapi: 3.0.1
+info:
+  title: shipit-clicker
+  description: ShipIt Clicker
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: Examples
+    description: Proste przykładowe punkty końcowe
+  - name: Specification
+    description: Specyfikacja API Swagger
+paths:
+  /examples:
+    get:
+      tags:
+        - Examples
+      description: Pobranie wszystkich przykładów
+      responses:
+        200:
+          description: Zwrócenie przykładu z określonym identyfikatorem
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Example'
+        4XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - Examples
+      description: Utworzenie nowego przykładu
+      requestBody:
+        description: Przykład
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExampleBody'
+        required: true
+      responses:
+        201:
+          description: Zwrócenie przykładu z określonym identyfikatorem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Example'
+        4XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /examples/{id}:
+    get:
+      tags:
+        - Examples
+      parameters:
+        - name: id
+          in: path
+          description: Identyfikator przykładu do pobrania
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Zwrócenie przykładu z określonym identyfikatorem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Example'
+        4XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/:
+    post:
+      tags:
+        - Game
+      description: Utwórz lub zaktualizuj nowy element gry
+      requestBody:
+        description: Element gry do utworzenia lub aktualizacji
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameBody'
+        required: true
+      responses:
+        201:
+          description: Zwrócenie nowoutworzonego elementu gry o podanym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/{id}/{element}:
+    get:
+      tags:
+        - Game
+      parameters:
+        - name: id
+          in: path
+          description: Identyfikator elementu gry do pobrania
+          required: true
+          schema:
+            type: string
+        - name: element
+          in: path
+          description: Identyfikator elementu gry do pobrania
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Zwrócenie elementu gry o podanym identyfikatorze
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        4XX:
+          description: Nie znaleziono przykładu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - Game
+      description: Zwiększenie elementu gry o określoną wartość
+      requestBody:
+        description: Wartość, o którą jest zwiększany element gry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameBody'
+        required: true
+      responses:
+        200:
+          description: Zwiększenie zostało zaakceptowane
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        5XX:
+          description: Błąd serwera
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Zwrócenie specyfikacji API
+          content: {}
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sample-game
+        element:
+          type: string
+          example: score
+        value:
+          type: integer
+          example: 3
+
+    GameBody:
+      title: Game Body
+      required:
+        - id
+        - element
+        - value
+      type: object
+      properties:
+        id:
+          type: string
+          example: sample-game
+        element:
+          type: string
+          example: score
+        value:
+          type: integer
+          example: 3
+
+    Example:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        name:
+          type: string
+          example: example 3
+    Error:
+      type: object
+      additionalProperties: true
+
+    ExampleBody:
+      title: example
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: no_stress
